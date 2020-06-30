@@ -1,5 +1,5 @@
 import { UserService } from './user.service';
-import { Controller, Get, Param, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Res, HttpStatus, Delete } from '@nestjs/common';
 import { Response } from 'express';
 
 @Controller('users')
@@ -15,6 +15,11 @@ export class UserController {
   @Get(':id')
   findById(@Param('id') id: string): User {
     return this.userService.findById(+id);
+  }
+
+  @Delete(':id')
+  deleteById(@Param('id') id: string): User {
+    return this.userService.deleteById(+id);
   }
 
   @Post()

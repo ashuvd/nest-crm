@@ -8,7 +8,7 @@ export default [
   {
     id: 2,
     name: 'Настройки',
-    url: '/settings',
+    url: '/setting',
     icon: 'setting'
   },
   {

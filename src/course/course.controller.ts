@@ -1,5 +1,5 @@
 import { CourseService } from './course.service';
-import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 @Controller('courses')
@@ -15,6 +15,11 @@ export class CourseController {
   @Get(':id')
   findById(@Param('id') id: string): Course {
     return this.courseService.findById(+id);
+  }
+
+  @Delete(':id')
+  deleteById(@Param('id') id: string): Course {
+    return this.courseService.deleteById(+id);
   }
 
   @Post()

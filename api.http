@@ -28,6 +28,12 @@ content-type: application/json
 
 ###
 
+# Delete user by id
+DELETE http://localhost:3000/users/2
+content-type: application/json
+
+###
+
 # Add user
 POST http://localhost:3000/users
 content-type: application/json
@@ -48,6 +54,12 @@ content-type: application/json
 
 # Get course by id
 GET http://localhost:3000/courses/1
+content-type: application/json
+
+###
+
+# Delete course by id
+DELETE http://localhost:3000/courses/1
 content-type: application/json
 
 ###
