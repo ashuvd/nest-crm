@@ -1,5 +1,6 @@
 import { NavigationService } from './navigation.service';
 import { Controller, Get, Param } from '@nestjs/common';
+import Navigation from '../models/Navigation';
 
 @Controller('navigations')
 export class NavigationController {
@@ -7,12 +8,12 @@ export class NavigationController {
   }
 
   @Get()
-  find(): Navigation[] {
+  find(): Promise<Navigation[]> {
     return this.navigationService.find();
   }
 
   @Get(':id')
-  findById(@Param('id') id: string): Navigation {
+  findById(@Param('id') id: string): Promise<Navigation> {
     return this.navigationService.findById(+id);
   }
 }

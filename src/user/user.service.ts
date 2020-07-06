@@ -1,25 +1,28 @@
-import users from 'src/mocks/user';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import User, { CreateUserDto } from '../models/User';
 
 @Injectable()
 export class UserService {
-  find(): User[] {
-    return users;
+  constructor(@Inject('USER_REPOSITORY') private readonly userRepository: typeof User) {
   }
-  findById(id: number): User {
-    return users.find(user => user.id === id);
+  find(): Promise<User[]> {
+    return this.userRepository.findAll();
   }
-  deleteById(id: number): User {
-    const idx = users.findIndex(user => user.id === id);
-    const user = users[idx];
-    if (idx > 0) {
-      users.splice(idx, 1);
+  findByLogin(login: string): Promise<User> {
+    return this.userRepository.findOne({ where: { login } });
+  }
+  async deleteById(id: number): Promise<User> {
+    const user = await this.userRepository.findByPk(id);
+    if (!user) {
+      return user;
     }
+    user.destroy();
     return user;
   }
-  createUser(newUser: CreateUserDto): User {
-    const user = { id: users.length + 1, login: newUser.login, password: newUser.password };
-    users.push(user);
-    return user;
+  findById(id: number): Promise<User> {
+    return this.userRepository.findByPk(id);
+  }
+  createUser(newUser: CreateUserDto): Promise<User> {
+    return this.userRepository.create(newUser);
   }
 }

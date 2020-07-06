@@ -16,9 +16,21 @@ content-type: application/json
 
 ###
 
-# Get all users
+# Login
+POST http://localhost:3000/auth/login
+content-type: application/json
+
+{
+  "login": "admin",
+  "password": "admin"
+}
+
+###
+
+# Get all users (protected by JwtAuthGuard)
 GET http://localhost:3000/users
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTU5NDA0NTkxNSwiZXhwIjoxNTk0MDQ1OTc1fQ.dvbtIXhw1fK3lSbgThwD3Xe0oYyOQNsREjrzHInt01A
 
 ###
 
@@ -39,9 +51,9 @@ POST http://localhost:3000/users
 content-type: application/json
 
 {
-  "login": "courier",
-  "password": "444",
-  "repeatPassword": "444"
+  "login": "admin",
+  "password": "admin",
+  "repeatPassword": "admin"
 }
 
 ###

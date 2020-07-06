@@ -1,23 +1,25 @@
-import courses from 'src/mocks/course';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import Course, { CreateCourseDto } from '../models/Course';
 
 @Injectable()
 export class CourseService {
-  find(): Course[] {
-    return courses;
+  constructor(@Inject('COURSE_REPOSITORY') private readonly courseRepository: typeof Course) {
   }
-  findById(id: number): Course {
-    return courses.find(course => course.id === id);
+  find(): Promise<Course[]> {
+    return this.courseRepository.findAll();
   }
-  deleteById(id: number): Course {
-    const idx = courses.findIndex(course => course.id === id);
-    const course = courses[idx];
-    if (idx > 0) {
-      courses.splice(idx, 1);
+  findById(id: number): Promise<Course> {
+    return this.courseRepository.findByPk(id);
+  }
+  async deleteById(id: number): Promise<Course> {
+    const course = await this.courseRepository.findByPk(id);
+    if (!course) {
+      return course;
     }
+    course.destroy();
     return course;
   }
-  createCourse(newCourse: CreateCourseDto): Course {
-    return { id: courses.length + 1, name: newCourse.name, description: newCourse.description, price: newCourse.price };
+  createCourse(newCourse: CreateCourseDto): Promise<Course> {
+    return this.courseRepository.create(newCourse);
   }
 }

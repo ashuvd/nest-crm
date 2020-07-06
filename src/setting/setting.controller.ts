@@ -1,6 +1,7 @@
 import { SettingService } from './setting.service';
 import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
+import Setting, { CreateSettingDto } from '../models/Setting';
 
 @Controller('setting')
 export class SettingController {
@@ -8,12 +9,12 @@ export class SettingController {
   }
 
   @Get()
-  findOne(): Setting {
+  findOne(): Promise<Setting> {
     return this.settingService.findOne();
   }
 
   @Post()
-  rpcCreateOrUpdate(@Body() createSettingDto: CreateOrUpdateSettingDto, @Res() res: Response): void {
+  rpcCreateOrUpdate(@Body() createSettingDto: CreateSettingDto, @Res() res: Response): void {
     const setting = this.settingService.rpcCreateOrUpdateSetting(createSettingDto);
     res.status(HttpStatus.OK).json({ setting });
   }
