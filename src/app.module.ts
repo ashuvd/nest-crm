@@ -11,9 +11,11 @@ import { NavigationModule } from './navigation/navigation.module';
 import { UserModule } from './user/user.module';
 import { SettingModule } from './setting/setting.module';
 import { CourseModule } from './course/course.module';
+import { DatabaseModule } from './database.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [NavigationModule, UserModule, SettingModule, CourseModule],
+  imports: [DatabaseModule, NavigationModule, UserModule, SettingModule, CourseModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

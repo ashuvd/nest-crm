@@ -1,18 +1,20 @@
-import settings from 'src/mocks/setting';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import Setting, { CreateSettingDto } from '../models/Setting';
 
 @Injectable()
 export class SettingService {
-  findOne(): Setting {
-    return settings[0];
+  constructor(@Inject('SETTING_REPOSITORY') private readonly settingRepository: typeof Setting) {
   }
-  rpcCreateOrUpdateSetting(setting: CreateOrUpdateSettingDto): Setting {
-    const createUpdateSetting = { id: 1, ip: setting.ip, port: setting.port };
-    if (settings.length) {
-      settings[0] = createUpdateSetting;
+  findOne(): Promise<Setting> {
+    return this.settingRepository.findOne();
+  }
+  async rpcCreateOrUpdateSetting(data: CreateSettingDto): Promise<Setting> {
+    let setting = await this.settingRepository.findOne();
+    if (setting) {
+      setting = await setting.update(data);
     } else {
-      settings.push(createUpdateSetting);
+      setting = await this.settingRepository.create(data);
     }
-    return createUpdateSetting;
+    return setting;
   }
 }

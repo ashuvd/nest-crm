@@ -1,12 +1,14 @@
-import navigations from 'src/mocks/navigation';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import Navigation from '../models/Navigation';
 
 @Injectable()
 export class NavigationService {
-  find(): Navigation[] {
-    return navigations;
+  constructor(@Inject('NAVIGATION_REPOSITORY') private readonly navigationRepository: typeof Navigation) {
   }
-  findById(id: number): Navigation {
-    return navigations.find(navigation => navigation.id === id);
+  find(): Promise<Navigation[]> {
+    return this.navigationRepository.findAll();
+  }
+  findById(id: number): Promise<Navigation> {
+    return this.navigationRepository.findByPk(id);
   }
 }
